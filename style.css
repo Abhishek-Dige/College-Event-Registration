@@ -1,0 +1,22 @@
+/* General styling */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  scroll-behavior: smooth;
+}
+
+section {
+  padding: 60px 0;
+}
+
+/* Card hover effect */
+.card:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+/* Footer */
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
