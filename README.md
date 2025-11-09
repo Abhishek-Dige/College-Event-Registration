@@ -48,7 +48,7 @@ When done, they push their code and open a **Pull Request (PR)** to merge it int
 
 Think of:
 - `main` = final version
-- your branch = your personal sandbox
+- critical branch = your personal sandbox
 - PR = sending your finished part for merging
 - `git pull` = bringing everyone else’s updates into your branch
 
@@ -62,17 +62,17 @@ Example (for Member A):
 
 git clone <repo-link>
 cd <repo-name>
-git checkout navbar
+git checkout critical
 
 
-Now you’re in your own branch, safe to edit files.
+Now you’re in critical branch, safe to edit files.
 
 You make your part (like navbar and footer).
 Once ready:
 
 git add .
 git commit -m "Navbar completed"
-git push origin navbar
+git push origin critical
 
 3️⃣ Pull Request Time (merging work)
 
@@ -81,7 +81,7 @@ Go to GitHub
 You’ll see “Compare & pull request” → click it
 
 Base branch = main
-Compare branch = your branch (e.g., navbar)
+Compare branch = critical branch 
 
 Add message:
 
@@ -128,12 +128,10 @@ Command	What it Does
 
 Imagine everyone’s working on different parts:
 
-**YOU PLEASE CREATE YOUR OWN BRANCH THEN CHECKOUT OR USE CHECKOUT -B <BRANCH NAME>**
-
 A runs:
 
 git clone <repo>
-git checkout navbar
+git checkout critical
 
 
 A makes navbar changes
@@ -162,11 +160,11 @@ Work continues smoothly 🎉
 🏁 TL;DR (Too Long; Didn’t Read)(**SUMMARY HERE FOR LAZY ONES**)
 
 1️⃣ Clone repo
-2️⃣ Switch to your branch
+2️⃣ Switch to critical branch
 3️⃣ Do your part
 4️⃣ Commit + push
 5️⃣ Open pull request
-6️⃣ Abhishek merges it
+6️⃣ Abhishek merges critical into main
 7️⃣ Everyone pulls latest main before continuing
 
 💬 Final Note
