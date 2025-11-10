@@ -7,7 +7,7 @@
   <title>Event Dashboard</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -144,7 +144,7 @@
     </div>
   </header>
 
-  <div class="container my-4">
+  <div class="container">
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -178,41 +178,39 @@
     </div>
   </div>
 
-  <section id="events" class="container my-5">
-    <section id="events" class="container my-5">
-      <h2 class="text-center mb-4">Upcoming Events</h2>
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <img src="dance.webp" class="card-img-top" alt="Dance Event">
-            <div class="card-body">
-              <h5 class="card-title">Dance Battle</h5>
-              <p class="card-text">Show off your moves in the biggest dance showdown!</p>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal">
-                Apply
-              </button>
+  <section id="events" class="py-5" >
+  <div class="container text-center text-white">
+    <h2 class="mb-4 fw-bold">🎉 Upcoming Events</h2>
+    <p class="mb-5">Don't miss out on what's happening around campus!</p>
 
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card h-100 shadow-sm">
-            <img src="code (1).webp" class="card-img-top" alt="Coding Event">
-            <div class="card-body">
-              <h5 class="card-title">CodeSprint</h5>
-              <p class="card-text">Test your coding skills and problem-solving speed.</p>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal">
-                Apply
-              </button>
-
-            </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col">
+        <div class="card h-100 shadow-lg border-0 event-card">
+          <img src="dance.webp" class="card-img-top" alt="Dance Fest">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Dance Fest 2025</h5>
+            <p class="text-muted small mb-2"><i class="bi bi-calendar-event"></i> 14th Nov, 2025</p>
+            <p class="card-text">An unforgettable evening of rhythm and lights featuring student bands!</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal">Register</button>
           </div>
         </div>
       </div>
-    </section>
+      <div class="col">
+        <div class="card h-100 shadow-lg border-0 event-card">
+          <img src="code (1).webp" class="card-img-top" alt="Hackathon">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">TechSprint Hackathon</h5>
+            <p class="text-muted small mb-2"><i class="bi bi-calendar-event"></i> 28th Nov, 2025</p>
+            <p class="card-text">24 hours of coding, creativity, and collaboration!</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#applyModal">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  </section>
+
 
   <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -244,7 +242,7 @@
       </div>
     </div>
   </div>
-  <section id="data-table" class="container my-5">
+  <section id="data-table" class="container ">
     <h2 class="text-center mb-4">Registered Users</h2>
     <table class="table table-striped table-hover text-center" id="userTable">
       <thead class="table-dark">
@@ -264,6 +262,11 @@
     </div>
   </section>
 
+<section class="text-center text-white " style="background: linear-gradient(135deg,  #2575fc,#ce4095);">
+  <h1 class="fw-bold display-4">IIIT Lucknow Fest 2025 🎉</h1>
+  <p class="lead">Join the most exciting event of the year — register now!</p>
+  <a href="#register" class="btn btn-light btn-lg mt-3">Register Now</a>
+</section>
 
 
   <footer class="bg-dark text-white text-center py-3">
