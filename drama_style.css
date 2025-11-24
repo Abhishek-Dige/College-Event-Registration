@@ -1,94 +1,77 @@
-/* --- Basic Setup --- */
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #e9ecef; /* A light grey background to make boxes pop */
+    background-color: #e9ecef;
     color: #333;
     line-height: 1.6;
 }
 
-/* --- Header and Tagline --- */
-.main-header {
+.header {
     text-align: center;
     padding: 40px 20px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
 }
 
-.main-header h1 {
-    font-family: 'Playfair Display', serif;
+.header h1 {
     font-size: 3rem;
     color: #222;
     margin: 0;
 }
 
-.main-header .tagline {
+.tagline {
     font-size: 1.2rem;
     color: #666;
-    margin: 5px 0 0;
+    margin-top: 5px;
 }
 
-/* --- Event Container --- */
-.event-container {
-    max-width: 900px; /* Limits the width on large screens */
-    margin: 40px auto; /* Centers the container */
+.wrapper {
+    max-width: 900px;
+    margin: 40px auto;
     padding: 0 20px;
 }
 
-/* --- Event Box (Core Style) --- */
-.event-box {
-    /* These are the exact styles you requested */
+.box {
     background-color: #f8f9fa;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-
-    border-radius: 8px; /* Added for a softer, modern look */
-    overflow: hidden;   /* Keeps the image corners rounded */
+    border-radius: 8px;
+    overflow: hidden;
     margin-bottom: 30px;
 
-    /* --- Mobile-First Layout (Stacked) --- */
     display: flex;
     flex-direction: column;
 }
 
-.event-image {
+.pic {
     width: 100%;
     height: 200px;
-    object-fit: cover; /* Prevents image from stretching */
+    object-fit: cover;
 }
 
-.event-details {
+.info {
     padding: 20px 25px;
 }
 
-.event-details h2 {
-    font-family: 'Playfair Display', serif;
+.info h2 {
     margin-top: 0;
     margin-bottom: 10px;
     font-size: 1.8rem;
     color: #000;
 }
 
-.event-details p {
-    margin-bottom: 0; /* No button below it, so 0 margin is fine */
-}
-
-/* --- Desktop Layout (using Media Query) --- */
-/* When the screen is 768px wide or more, apply these styles */
 @media (min-width: 768px) {
-    .event-box {
-        /* This changes the layout to "image left, text right" */
+    .box {
         flex-direction: row;
-        align-items: center; /* Vertically centers the text with the image */
+        align-items: center;
     }
 
-    .event-image {
-        /* Give the image a fixed width on desktop */
+    .pic {
         width: 250px;
         height: 220px;
     }
 
-    .event-details {
+    .info {
         padding: 30px;
     }
 }
