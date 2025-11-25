@@ -41,7 +41,7 @@ footer p {
   box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
 
-@keyframes gradientMove {
+/* @keyframes gradientMove {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -56,7 +56,7 @@ nav{
   animation: gradientMove 15s ease infinite;
   color: white;
 
-}
+} */
 body {
   line-height: 1.4;
 }
