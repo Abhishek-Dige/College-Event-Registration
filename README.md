@@ -4,7 +4,7 @@
 
 Welcome, teammates 👋  
 This README explains everything — from how our project structure works to how we’ll use GitHub like pros.  
-No need to Google anything; this one file is your full survival kit 😎  
+No need to Google anything; this one file is your full survival kit 😎
 
 ---
 
@@ -164,3 +164,5 @@ Follow it and we’ll build something clean, organized, and actually impressive 
 If you’re confused at any step, ping Abhishek instead of guessing random commands.
 
 Made with ❤️ by Team Spiders
+#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+>>>>>>> 1ee8b21 (Initialize project using Create React App)
