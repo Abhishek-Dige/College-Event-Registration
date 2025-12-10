@@ -1,8 +1,9 @@
 import React from "react";
-
+import '../styles/contactus-styles/contactus_style.css'
 function ContactUs() {
   return (
     <>
+    <div className="contact-page">
       <form className="container my-5" style={{ maxWidth: "600px" }}>
         <h2 className="mb-4 text-center">Contact Us - IIIT Lucknow</h2>
 
@@ -88,6 +89,7 @@ function ContactUs() {
           Send Message
         </button>
       </form>
+      </div>
     </>
   );
 }

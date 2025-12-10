@@ -1,3 +1,18 @@
+body.modal-open {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
+
+.modal-backdrop {
+  display: none !important;
+}
+
+
+
+* {
+  pointer-events: auto !important;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   background-color: #f8f9fa;
@@ -6,6 +21,11 @@ body {
 
 section {
   padding: 60px 0;
+}
+.container {
+  position: static !important;
+  z-index: auto !important;
+  height: auto !important;
 }
 
 

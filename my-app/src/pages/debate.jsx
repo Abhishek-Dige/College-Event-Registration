@@ -1,9 +1,9 @@
 import React from "react";
-// import "../styles/event-styles/debate_style.css";
+import "../styles/event-styles/events_page.css";
 
 function Debate() {
     return (
-        <div>
+        <div className="events-page">
 
             <header className="header">
                 <h1>Arguments and Ideas</h1>

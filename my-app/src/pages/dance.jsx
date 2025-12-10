@@ -1,9 +1,9 @@
 import React from "react";
-// import '../styles/event-styles/dance_style.css';
+import "../styles/event-styles/events_page.css";
 
 function Dance() {
     return (
-        <div>
+        <div className="events-page">
 
             <header className="header">
                 <h1>Rhythm and Flow</h1>

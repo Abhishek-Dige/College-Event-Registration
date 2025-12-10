@@ -1,9 +1,9 @@
 import React from "react";
-// import "../styles/event-styles/music_style.css";
+import "../styles/event-styles/events_page.css";
 
 function Music() {
     return (
-        <div>
+        <div className="events-page">
 
             <header className="header">
                 <h1>Sound and Soul</h1>
