@@ -1,0 +1,70 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  scroll-behavior: smooth;
+}
+
+section {
+  padding: 60px 0;
+}
+
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  font-size: 1.1rem;
+}
+
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.modal-header {
+  border-bottom: none;
+}
+.modal-footer {
+  border-top: none;
+}
+#userTable {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+}
+
+/* @keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+body {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  animation: gradientMove 15s ease infinite;
+  color: white;
+}
+nav{
+  background: linear-gradient(-45deg, rgb(98, 131, 184), #e98eb1, #23a6d5, #23d5ab);
+  animation: gradientMove 15s ease infinite;
+  color: white;
+
+} */
+body {
+  line-height: 1.4;
+}
+
+.card {
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  padding: 0.75rem;
+}
