@@ -7,58 +7,59 @@
   <title>Document</title>
 </head>
 <body>
+
   <form>
-  <h2 class="mb-4 text-center">Contact Us - IIIT Lucknow</h2>
+    <h2 class="mb-4 text-center">Contact Us - IIIT Lucknow</h2>
 
+    <div class="mb-3">
+      <label for="name" class="form-label">Full Name</label>
+      <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+    </div>
+    <br>
 
-  <div class="mb-3">
-    <label for="name" class="form-label">Full Name</label>
-    <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
-  </div>
-  <br>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email Address</label>
+      <input type="email" class="form-control" id="email" placeholder="name@iiitl.ac.in" aria-describedby="emailHelp" required>
+      <br><br>
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      <br>
+    </div>
+    <br>
 
-  <div class="mb-3">
-    <label for="email" class="form-label">Email Address</label>
-    <input type="email" class="form-control" id="email" placeholder="name@iiitl.ac.in" aria-describedby="emailHelp" required>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="phone" placeholder="+91 XXXXX XXXXX" required>
+      <br>
+    </div>
     <br>
-    <br>
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-    <br>
-  </div>
-  <br>
 
-  <div class="mb-3">
-    <label for="phone" class="form-label">Phone Number</label>
-    <input type="tel" class="form-control" id="phone" placeholder="+91 XXXXX XXXXX" required>
+    <div class="mb-3">
+      <label for="subject" class="form-label">Subject</label>
+      <input type="text" class="form-control" id="subject" placeholder="Enter the subject" required>
+      <br>
+    </div>
     <br>
-  </div>
-  <br>
 
-  <div class="mb-3">
-    <label for="subject" class="form-label">Subject</label>
-    <input type="text" class="form-control" id="subject" placeholder="Enter the subject" required>
+    <div class="mb-3">
+      <label for="message" class="form-label">Message</label>
+      <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..." required></textarea>
+      <br>
+    </div>
     <br>
-  </div>
-  <br>
-  <div class="mb-3">
-    <br>
-    <label for="message" class="form-label">Message</label>
-    <br>
-    <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..." required></textarea>
-    <br>
-  </div>
-  <br>
 
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="agreement" required>
-    <label class="form-check-label" for="agreement">I confirm that the information provided is correct.</label>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="agreement" required>
+      <label class="form-check-label" for="agreement">I confirm that the information provided is correct.</label>
+      <br>
+    </div>
     <br>
-  </div>
-  <br>
 
-  <button type="submit" class="btn btn-primary w-100">Send Message</button>
-  <br>
-</form>
+    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+    <br><br>
+
+    <a href="index.html" class="btn-back"> Back to Home</a>
+
+  </form>
 
 </body>
 </html>
