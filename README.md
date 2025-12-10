@@ -1,4 +1,6 @@
-# 🎓 Campus Event Dashboard – Team Workflow Guide (Full Tutorial + GitHub for Dummies)
+# 🎓 Campus Event Dashboard – G12
+##TEAM MEMBERS
+`Abhishek Anant Dige`,`Atin Gourav`,`Rishiraj Singh`,`Smith Jain`,`Atul Pal`
 
 Welcome, teammates 👋  
 This README explains everything — from how our project structure works to how we’ll use GitHub like pros.  
@@ -23,18 +25,6 @@ The features include:
 ## 🎯 GOAL
 We’ll all contribute to one shared repository but **work in our own branches**,  
 so nobody messes up anyone else’s code.
-
----
-
-## 🧩 TEAM BRANCH ASSIGNMENT
-
-| Member | Branch Name | Task |
-|--------|--------------|------|
-| Abhishek (Lead) | `main` | Merges everything |
-| Member A | `navbar` | Navbar + Footer |
-| Member B | `carousel` | Carousel (Home Section) |
-| Member C | `form-table` | Registration Form + User Table |
-| Member D | `cards-modal` | Cards Section + Modal Popup |
 
 ---
 

@@ -1,13 +1,32 @@
-// Auto-fill event name when Apply button is clicked
-document.querySelectorAll('.btn[data-bs-target="#applyModal"]').forEach((btn) => {
+
+document.querySelectorAll('[data-bs-target="#applyModal"]').forEach(btn => {
   btn.addEventListener('click', (e) => {
-    const eventCard = e.target.closest('.card');
-    const eventName = eventCard.querySelector('.card-title').textContent;
-    document.querySelector('#event').value = eventName;
+    const button = e.currentTarget;               
+    const eventCard = button.closest('.card');    
+    let eventName = '';
+
+    if (eventCard) {
+      const titleEl = eventCard.querySelector('.card-title');
+      eventName = titleEl ? titleEl.textContent.trim() : '';
+    } else {
+      eventName = button.dataset.event || button.getAttribute('data-event') || button.textContent.trim();
+    }
+
+    const eventInput = document.querySelector('#event');
+    if (eventInput) {
+      eventInput.value = eventName;
+      eventInput.readOnly = true; 
+    }
+
+    const modalTitle = document.querySelector('#applyModalLabel');
+    if (modalTitle) {
+      modalTitle.textContent = eventName ? `Registering for: ${eventName}` : 'Event Registration';
+    }
   });
 });
 
-// Handle form submission and store data in localStorage
+
+
 document.getElementById('eventForm').addEventListener('submit', (e) => {
   e.preventDefault();
 
@@ -22,20 +41,20 @@ document.getElementById('eventForm').addEventListener('submit', (e) => {
 
   const entry = { name, email, eventName, time: new Date().toLocaleString() };
 
-  // Fetch existing data or create empty array
+
   const data = JSON.parse(localStorage.getItem('registrations')) || [];
   data.push(entry);
   localStorage.setItem('registrations', JSON.stringify(data));
 
-  // Reset form & close modal
+
   e.target.reset();
   const modal = bootstrap.Modal.getInstance(document.getElementById('applyModal'));
   modal.hide();
 
   alert(`Registration successful for ${eventName}! 🎉`);
-  loadRegistrations(); // Refresh table after new entry
+  loadRegistrations();
 });
-// 🔹 Preload dummy data if localStorage is empty
+
 function preloadDummyData() {
   const existing = JSON.parse(localStorage.getItem('registrations'));
   if (!existing || existing.length === 0) {
@@ -50,12 +69,12 @@ function preloadDummyData() {
   }
 }
 
-// 🔹 Display data from localStorage in the table
+
 function loadRegistrations() {
   const tableBody = document.querySelector('#userTable tbody');
   const data = JSON.parse(localStorage.getItem('registrations')) || [];
 
-  tableBody.innerHTML = ''; // Clear old rows
+  tableBody.innerHTML = ''; 
 
   data.forEach((entry, index) => {
     const row = `
@@ -71,7 +90,7 @@ function loadRegistrations() {
   });
 }
 
-// 🔹 Clear all data button
+
 document.getElementById('clearDataBtn').addEventListener('click', () => {
   if (confirm("Are you sure you want to clear all registrations?")) {
     localStorage.removeItem('registrations');
@@ -79,12 +98,12 @@ document.getElementById('clearDataBtn').addEventListener('click', () => {
   }
 });
 
-// 🔹 Initialize on page load
+
 document.addEventListener('DOMContentLoaded', () => {
   preloadDummyData();
   loadRegistrations();
 
-  // Show the new info modal on page load
+
   const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
   infoModal.show();
 });
