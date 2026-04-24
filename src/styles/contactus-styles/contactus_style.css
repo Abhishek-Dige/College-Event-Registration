@@ -1,16 +1,20 @@
+/* MAIN CONTAINER — isolates ALL styling */
 .contact-page {
   font-family: "Poppins", sans-serif;
-  background: url("./background.jpg") no-repeat center center fixed;
+  background: url("/images/carousel-images/campus.jpg") no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+
+  /* center form */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
+/* Dark overlay */
 .contact-page::before {
   content: "";
   position: fixed;
@@ -22,7 +26,8 @@
   z-index: -1;
 }
 
-.contact-form {
+/* Form */
+.contact-page form {
   width: 90%;
   max-width: 550px;
   background: rgba(255, 255, 255, 0.15);
@@ -36,7 +41,8 @@
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.contact-form h2 {
+/* Form heading */
+.contact-page form h2 {
   font-weight: 800;
   font-size: 2rem;
   text-align: center;
@@ -47,13 +53,15 @@
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
 }
 
-.frm-label {
+/* Labels */
+.contact-page .form-label {
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.5px;
 }
 
-.frm-control {
+/* Input fields */
+.contact-page .form-control {
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 12px;
@@ -63,26 +71,26 @@
   transition: all 0.3s ease;
 }
 
-.frm-control::placeholder {
+.contact-page .form-control::placeholder {
   color: rgba(255, 255, 255, 0.75);
-  font-weight: 400;
 }
 
-.frm-control:focus {
+.contact-page .form-control:focus {
   background: rgba(255, 255, 255, 0.3);
   border-color: #fff;
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
   outline: none;
-  color: #fff;
 }
 
-.frm-check-label {
+/* Checkbox label */
+.contact-page .form-check-label {
   color: #ffffff;
   font-weight: 500;
   letter-spacing: 0.3px;
 }
 
-.button-primary {
+/* Submit Button */
+.contact-page .btn-primary {
   background: linear-gradient(135deg, #00b4db, #0083b0);
   border: none;
   border-radius: 12px;
@@ -97,26 +105,26 @@
   box-shadow: 0 4px 15px rgba(0, 180, 219, 0.5);
 }
 
-.button-primary:hover {
+.contact-page .btn-primary:hover {
   background: linear-gradient(135deg, #0093e9, #80d0c7);
   transform: scale(1.04);
   box-shadow: 0 6px 20px rgba(0, 180, 219, 0.6);
 }
 
-.frm-text {
+/* Email small text */
+.contact-page .form-text {
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
   font-size: 0.95rem;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
-  .contact-form {
+  .contact-page form {
     padding: 25px;
   }
 
-  .contact-form h2 {
+  .contact-page form h2 {
     font-size: 1.6rem;
   }
 }
-
-

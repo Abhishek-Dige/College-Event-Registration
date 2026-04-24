@@ -1,9 +1,9 @@
 import React from "react";
-import "../styles/event-styles/music_style.css";
+import "../styles/event-styles/events_page.css";
 
 function Music() {
     return (
-        <div className="music-page">
+        <div className="events-page">
 
             <header className="header">
                 <h1>Sound and Soul</h1>
@@ -41,7 +41,7 @@ function Music() {
                     </div>
                     <div className="info">
                         <h2>Orchestra Performance</h2>
-                        <p>This event features a full group of musicians playing classNameical pieces. The music is strong, emotional, and very detailed. It is a good choice for people who enjoy traditional and slow music.</p>
+                        <p>This event features a full group of musicians playing classical pieces. The music is strong, emotional, and very detailed. It is a good choice for people who enjoy traditional and slow music.</p>
                     </div>
                 </div>
 

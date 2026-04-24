@@ -1,9 +1,9 @@
 import React from "react";
-import '../styles/event-styles/dance_style.css';
+import "../styles/event-styles/events_page.css";
 
 function Dance() {
     return (
-        <div className="dance-page">
+        <div className="events-page">
 
             <header className="header">
                 <h1>Rhythm and Flow</h1>
@@ -34,11 +34,11 @@ function Dance() {
 
                 <div className="box">
                     <div className="img-box">
-                        <img src="/images/dance-images/classicaldance.jpg" alt="classNameical Dance" className="pic" />
+                        <img src="/images/dance-images/classicaldance.jpg" alt="Classical Dance" className="pic" />
                     </div>
                     <div className="info">
                         <h2>Classical Night</h2>
-                        <p>This event features beautiful classNameical dance pieces. The dancers perform with grace and focus. It is a calm and nice experience for anyone who enjoys traditional dance.</p>
+                        <p>This event features beautiful classical dance pieces. The dancers perform with grace and focus. It is a calm and nice experience for anyone who enjoys traditional dance.</p>
                     </div>
                 </div>
 
