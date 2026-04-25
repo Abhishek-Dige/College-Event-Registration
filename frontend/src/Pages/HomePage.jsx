@@ -9,62 +9,44 @@ import * as bootstrap from "bootstrap";
 
 export default function HomePage() {
   const [selectedEvent, setSelectedEvent] = useState("");
+  const [registrations, setRegistrations] = useState([]);
 
   useEffect(() => {
-    preloadDummyData();
     loadRegistrations();
 
-    const modalEl = document.getElementById("infoModal");
-    if (!modalEl) return;
-    
-    let infoModal = bootstrap.Modal.getInstance(modalEl);
-    if (!infoModal) {
-      infoModal = new bootstrap.Modal(modalEl);
-    }
-    infoModal.show();
+    // Check sessionStorage so infoModal only pops up once per session
+    if (!sessionStorage.getItem("infoModalShown")) {
+      const modalEl = document.getElementById("infoModal");
+      if (!modalEl) return;
+      
+      let infoModal = bootstrap.Modal.getInstance(modalEl);
+      if (!infoModal) {
+        infoModal = new bootstrap.Modal(modalEl);
+      }
+      infoModal.show();
+      
+      sessionStorage.setItem("infoModalShown", "true");
 
-    return () => {
-      // Cleanup to prevent locking scroll / double backdrop in strict mode
-      infoModal.hide();
-    };
+      return () => {
+        // Cleanup to prevent locking scroll / double backdrop in strict mode
+        infoModal.hide();
+      };
+    }
   }, []);
-  // Loads dummy data into localStorage IF empty
-function preloadDummyData() {
-  const existing = JSON.parse(localStorage.getItem("registrations"));
-  if (!existing || existing.length === 0) {
-    const dummyData = [
-      { name: "Aarav Patel", email: "aarav@example.com", eventName: "Dance Battle", time: "2025-11-08 10:30 AM" },
-      { name: "Riya Sharma", email: "riya@example.com", eventName: "CodeSprint", time: "2025-11-08 10:45 AM" },
-      { name: "Neha Mehta", email: "neha@example.com", eventName: "Drama Fiesta", time: "2025-11-08 11:00 AM" },
-      { name: "Aditya Verma", email: "aditya@example.com", eventName: "Music Mania", time: "2025-11-08 11:15 AM" },
-      { name: "Priya Singh", email: "priya@example.com", eventName: "Fine Art Expo", time: "2025-11-08 11:30 AM" },
-    ];
-    localStorage.setItem("registrations", JSON.stringify(dummyData));
+
+// Populate table with data from backend
+async function loadRegistrations() {
+  try {
+    const response = await fetch("http://localhost:8080/api/data");
+    const data = await response.json();
+    setRegistrations(data);
+  } catch (error) {
+    console.error("Error loading registrations:", error);
   }
 }
 
-// Populate table with data
-function loadRegistrations() {
-  const tableBody = document.querySelector("#userTable tbody");
-  const data = JSON.parse(localStorage.getItem("registrations")) || [];
-  tableBody.innerHTML = "";
-  data.forEach((entry, index) => {
-    tableBody.insertAdjacentHTML(
-      "beforeend",
-      `
-      <tr>
-        <th scope="row">${index + 1}</th>
-        <td>${entry.name}</td>
-        <td>${entry.email}</td>
-        <td>${entry.eventName}</td>
-        <td>${entry.time}</td>
-      </tr>`
-    );
-  });
-}
-
 // Handles form submission
-function handleFormSubmit(e) {
+async function handleFormSubmit(e) {
   e.preventDefault();
   const name = document.querySelector("#name").value.trim();
   const email = document.querySelector("#email").value.trim();
@@ -76,18 +58,45 @@ function handleFormSubmit(e) {
   }
 
   const newEntry = { name, email, eventName, time: new Date().toLocaleString() };
-  const existing = JSON.parse(localStorage.getItem("registrations")) || [];
 
-  existing.push(newEntry);
-  localStorage.setItem("registrations", JSON.stringify(existing));
+  try {
+    const response = await fetch("http://localhost:8080/api/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newEntry)
+    });
 
-  loadRegistrations();
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
 
-  const modal = bootstrap.Modal.getInstance(document.getElementById("applyModal"));
-  modal.hide();
-  alert(`Registration successful for ${eventName}!`);
+    loadRegistrations();
 
-  e.target.reset();
+    const modalEl = document.getElementById("applyModal");
+    let modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) {
+      modal.hide();
+    }
+    
+    // Fallback: React sometimes interrupts Bootstrap's transition, leaving the backdrop stranded
+    setTimeout(() => {
+      modalEl.classList.remove("show");
+      modalEl.style.display = "none";
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+      document.body.removeAttribute("data-bs-overflow");
+      document.body.removeAttribute("data-bs-padding-right");
+      document.querySelectorAll(".modal-backdrop").forEach(el => el.remove());
+    }, 400);
+
+    e.target.reset();
+  } catch (error) {
+    console.error("Error registering:", error);
+    alert("Failed to register. Please try again.");
+  }
 }
 
 
@@ -178,7 +187,7 @@ function handleFormSubmit(e) {
 
 
 
-  <div className="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div className="modal fade" id="applyModal" tabIndex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">
         <div className="modal-header bg-primary text-white">
@@ -221,16 +230,30 @@ function handleFormSubmit(e) {
           <th>Time</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        {registrations.map((entry, index) => (
+          <tr key={entry.id || index}>
+            <th scope="row">{index + 1}</th>
+            <td>{entry.name}</td>
+            <td>{entry.email}</td>
+            <td>{entry.eventName}</td>
+            <td>{entry.time}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
 
     <button
   className="btn btn-danger"
   id="clearDataBtn"
-  onClick={() => {
-    if (confirm("Clear all registrations?")) {
-      localStorage.removeItem("registrations");
-      loadRegistrations();
+  onClick={async () => {
+    if (window.confirm("Clear all registrations?")) {
+      try {
+        await fetch("http://localhost:8080/api/data", { method: "DELETE" });
+        loadRegistrations();
+      } catch (error) {
+        console.error("Error clearing data:", error);
+      }
     }
   }}
 >
