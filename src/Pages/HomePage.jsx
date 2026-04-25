@@ -85,7 +85,7 @@ function handleFormSubmit(e) {
 
   const modal = bootstrap.Modal.getInstance(document.getElementById("applyModal"));
   modal.hide();
-  alert(`Registration successful for ${eventName}! 🎉`);
+  alert(`Registration successful for ${eventName}!`);
 
   e.target.reset();
 }
