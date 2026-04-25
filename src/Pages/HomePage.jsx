@@ -130,7 +130,7 @@ function handleFormSubmit(e) {
 
   <section id="events" className="py-5" >
   <div className="container text-center text-black">
-    <h2 className="mb-4 fw-bold">🎉 Upcoming Events</h2>
+    <h2 className="mb-4 fw-bold"> Upcoming Events</h2>
     <p className="mb-5">Don't miss out on what's happening around campus!</p>
 
     <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -243,7 +243,7 @@ function handleFormSubmit(e) {
   className="text-center text-white"
   style={{ background: "linear-gradient(135deg, #2575fc, #ce4095)" }}
 >
-  <h1 className="fw-bold display-4">IIIT Lucknow Fest 2025 🎉</h1>
+  <h1 className="fw-bold display-4">IIIT Lucknow Fest 2025 </h1>
   <p className="lead">Join the most exciting event of the year — register now!</p>
   <button
   className="btn btn-primary"
