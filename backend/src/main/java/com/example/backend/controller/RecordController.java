@@ -28,12 +28,13 @@ public class RecordController {
         return recordRepository.save(newRecord);
     }
 
-    // PUT /api/data/{id} → update a record
     @PutMapping("/{id}")
     public ResponseEntity<Record> updateRecord(@PathVariable Long id, @RequestBody Record recordDetails) {
         return recordRepository.findById(id).map(record -> {
             record.setName(recordDetails.getName());
-            record.setValue(recordDetails.getValue());
+            record.setEmail(recordDetails.getEmail());
+            record.setEventName(recordDetails.getEventName());
+            record.setTime(recordDetails.getTime());
             Record updatedRecord = recordRepository.save(record);
             return ResponseEntity.ok(updatedRecord);
         }).orElse(ResponseEntity.notFound().build());
@@ -48,5 +49,12 @@ public class RecordController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    // DELETE /api/data → delete all records
+    @DeleteMapping
+    public ResponseEntity<Void> deleteAllRecords() {
+        recordRepository.deleteAll();
+        return ResponseEntity.ok().build();
     }
 }

@@ -15,15 +15,19 @@ public class Record {
     private Long id;
 
     private String name;
-    private String value;
+    private String email;
+    private String eventName;
+    private String time;
 
     // Constructors
     public Record() {
     }
 
-    public Record(String name, String value) {
+    public Record(String name, String email, String eventName, String time) {
         this.name = name;
-        this.value = value;
+        this.email = email;
+        this.eventName = eventName;
+        this.time = time;
     }
 
     // Getters and Setters
@@ -43,11 +47,27 @@ public class Record {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getEmail() {
+        return email;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
