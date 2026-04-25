@@ -18,3 +18,11 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Package Manager
 Use pnpm instead of npm for managing this project. You can install it using the command `npm install pnpm`. Also delete `package-lock.json` if it's already present.
+
+## Application Properties
+Add your MySQL username and password in the `application.properties` file in the `backend` folder.
+
+## Run the Application
+1. Open two terminals.
+2. In the first terminal, navigate to the `backend` folder and run `mvn spring-boot:run`.
+3. In the second terminal, navigate to the `frontend` folder and run `npm run dev`.
