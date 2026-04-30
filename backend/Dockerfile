@@ -14,7 +14,7 @@ COPY src src
 RUN mvn package -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/target/dependency
 
