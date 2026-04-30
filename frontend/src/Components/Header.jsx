@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import * as bootstrap from "bootstrap";
 import { api } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
@@ -26,7 +27,13 @@ function Header() {
             document.querySelector('#loginModal .btn-close')?.click();
             navigate('/');
         } catch (error) {
-            alert(error.message);
+            // Show infoModal asking user to register if login fails
+            const modalEl = document.getElementById("infoModal");
+            if (modalEl) {
+                // eslint-disable-next-line no-undef
+                const infoModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                infoModal.show();
+            }
         }
     };
 

@@ -14,13 +14,13 @@ import ContactUs from "./pages/contactus";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
 function AppContent() {
-  const { user } = useAuth();
+  const { token } = useAuth();
   
   return (
     <div className="App d-flex flex-column min-vh-100">
       <Header />
       <div className="flex-grow-1">
-        {user ? (
+        {token ? (
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/dance" element={<Dance />} />

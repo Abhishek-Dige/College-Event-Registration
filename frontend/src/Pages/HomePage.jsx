@@ -14,24 +14,7 @@ export default function HomePage() {
   useEffect(() => {
     loadRegistrations();
 
-    // Check sessionStorage so infoModal only pops up once per session
-    if (!sessionStorage.getItem("infoModalShown")) {
-      const modalEl = document.getElementById("infoModal");
-      if (!modalEl) return;
-      
-      let infoModal = bootstrap.Modal.getInstance(modalEl);
-      if (!infoModal) {
-        infoModal = new bootstrap.Modal(modalEl);
-      }
-      infoModal.show();
-      
-      sessionStorage.setItem("infoModalShown", "true");
-
-      return () => {
-        // Cleanup to prevent locking scroll / double backdrop in strict mode
-        infoModal.hide();
-      };
-    }
+    // removed automatic infoModal popup
   }, []);
 
 // Populate table with data from backend
