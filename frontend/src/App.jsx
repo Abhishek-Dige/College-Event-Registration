@@ -1,8 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Header from "./components/Header";
-import HomePage from "./pages/HomePage";
+import Header from "./Components/Header";
+import HomePage from "./Pages/HomePage";
 import Dance from "./pages/dance";
 import Music from "./pages/music";
 import Drama from "./pages/drama";
