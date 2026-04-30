@@ -80,7 +80,8 @@ export default function HomePage() {
 
   async function loadEvents() {
     try {
-      const response = await api.fetchProtected("http://localhost:8080/api/events");
+      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const response = await api.fetchProtected(`${baseUrl}/api/events`);
       if (response.ok) {
         const data = await response.json();
         setEventsList(data);
@@ -97,7 +98,8 @@ export default function HomePage() {
 
   async function loadRegistrations() {
     try {
-      const response = await api.fetchProtected("http://localhost:8080/api/data");
+      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const response = await api.fetchProtected(`${baseUrl}/api/data`);
       const data = await response.json();
       setRegistrations(data);
     } catch (error) {
@@ -120,7 +122,8 @@ export default function HomePage() {
     const newEntry = { name, email, eventName, time: new Date().toLocaleString() };
 
     try {
-      const response = await api.fetchProtected("http://localhost:8080/api/data", {
+      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const response = await api.fetchProtected(`${baseUrl}/api/data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -343,6 +346,7 @@ export default function HomePage() {
             ))}
           </tbody>
         </table>
+
 
 
       </section>
