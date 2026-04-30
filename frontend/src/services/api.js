@@ -1,5 +1,11 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/auth'; // Adjust based on your Spring Boot port
-
+export const getBaseUrl = () => {
+    let url = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+    // Clean up trailing slash
+    if (url.endsWith('/')) url = url.slice(0, -1);
+    // Remove /auth if accidentally added
+    if (url.endsWith('/auth')) url = url.slice(0, -5);
+    return url;
+};
 const getDeviceId = () => {
     let deviceId = sessionStorage.getItem("deviceId");
     if (!deviceId) {
@@ -12,7 +18,7 @@ const getDeviceId = () => {
 
 export const api = {
     register: async (data) => {
-        const response = await fetch(`${API_BASE_URL}/register`, {
+        const response = await fetch(`${getBaseUrl()}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +35,7 @@ export const api = {
     },
     
     login: async (data) => {
-        const response = await fetch(`${API_BASE_URL}/login`, {
+        const response = await fetch(`${getBaseUrl()}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

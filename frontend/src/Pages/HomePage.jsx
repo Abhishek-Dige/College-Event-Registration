@@ -3,7 +3,7 @@ import '../style.css';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import * as bootstrap from "bootstrap";
-import { api } from "../services/api";
+import { api, getBaseUrl } from "../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -80,7 +80,7 @@ export default function HomePage() {
 
   async function loadEvents() {
     try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const baseUrl = getBaseUrl();
       const response = await api.fetchProtected(`${baseUrl}/api/events`);
       if (response.ok) {
         const data = await response.json();
@@ -98,7 +98,7 @@ export default function HomePage() {
 
   async function loadRegistrations() {
     try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const baseUrl = getBaseUrl();
       const response = await api.fetchProtected(`${baseUrl}/api/data`);
       const data = await response.json();
       setRegistrations(data);

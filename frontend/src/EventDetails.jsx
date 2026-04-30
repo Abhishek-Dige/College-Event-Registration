@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { api } from "./services/api";
+import { api, getBaseUrl } from "./services/api";
 import toast from "react-hot-toast";
 
 export default function EventDetails() {
@@ -14,7 +14,8 @@ export default function EventDetails() {
 
   useEffect(() => {
     if (!id) return;
-    api.fetchProtected(`http://localhost:8080/api/events/${id}`)
+    const baseUrl = getBaseUrl();
+    api.fetchProtected(`${baseUrl}/api/events/${id}`)
       .then(res => {
         if (!res.ok) throw new Error("Not found");
         return res.json();
@@ -61,7 +62,8 @@ export default function EventDetails() {
     const newEntry = { name, email, eventName: event.name, time: new Date().toLocaleString() };
 
     try {
-      const response = await api.fetchProtected("http://localhost:8080/api/data", {
+      const baseUrl = getBaseUrl();
+      const response = await api.fetchProtected(`${baseUrl}/api/data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newEntry)
