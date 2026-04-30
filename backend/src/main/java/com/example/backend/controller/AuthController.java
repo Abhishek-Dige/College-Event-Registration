@@ -23,12 +23,13 @@ public class AuthController {
             String name = request.get("name");
             String email = request.get("email");
             String password = request.get("password");
+            String deviceId = request.get("deviceId");
 
-            if (email == null || password == null || name == null) {
+            if (email == null || password == null || name == null || deviceId == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing required fields");
             }
 
-            String uid = authService.registerUser(name, email, password);
+            String uid = authService.registerUser(name, email, password, deviceId);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -48,12 +49,13 @@ public class AuthController {
         try {
             String email = request.get("email");
             String password = request.get("password");
+            String deviceId = request.get("deviceId");
 
-            if (email == null || password == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing email or password");
+            if (email == null || password == null || deviceId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Missing email, password or deviceId");
             }
 
-            Map<String, Object> tokenData = authService.loginUser(email, password);
+            Map<String, Object> tokenData = authService.loginUser(email, password, deviceId);
             return ResponseEntity.ok(tokenData);
         } catch (RuntimeException e) {
             Map<String, String> errorResponse = new HashMap<>();
@@ -63,6 +65,19 @@ public class AuthController {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Internal server error");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
+        try {
+            String uid = request.get("uid");
+            if (uid != null) {
+                authService.logoutUser(uid);
+            }
+            return ResponseEntity.ok(Map.of("success", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Logout failed"));
         }
     }
 }

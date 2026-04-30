@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import { api } from '../services/api';
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
@@ -10,9 +10,9 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Load token and user info from localStorage if available
-        const storedToken = localStorage.getItem('token');
-        const storedUser = localStorage.getItem('user');
+        // Load token and user info from sessionStorage if available
+        const storedToken = sessionStorage.getItem('token');
+        const storedUser = sessionStorage.getItem('user');
 
         if (storedToken && storedUser) {
             setToken(storedToken);
@@ -26,15 +26,18 @@ export const AuthProvider = ({ children }) => {
         const userData = { uid: tokenData.uid, email: tokenData.email };
         setUser(userData);
         
-        localStorage.setItem('token', tokenData.token);
-        localStorage.setItem('user', JSON.stringify(userData));
+        sessionStorage.setItem('token', tokenData.token);
+        sessionStorage.setItem('user', JSON.stringify(userData));
     };
 
-    const logout = () => {
+    const logout = async () => {
+        if (user && user.uid) {
+            await api.logout(user.uid);
+        }
         setToken(null);
         setUser(null);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
     };
 
     if (loading) {

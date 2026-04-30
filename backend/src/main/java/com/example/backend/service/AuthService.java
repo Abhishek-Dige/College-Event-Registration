@@ -23,7 +23,7 @@ public class AuthService {
     @Value("${firebase.api.key:YOUR_API_KEY}")
     private String firebaseApiKey;
 
-    public String registerUser(String name, String email, String password) throws FirebaseAuthException, ExecutionException, InterruptedException {
+    public String registerUser(String name, String email, String password, String deviceId) throws FirebaseAuthException, ExecutionException, InterruptedException {
         // 1. Create user in Firebase Auth
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail(email)
@@ -40,12 +40,14 @@ public class AuthService {
         userData.put("email", email);
         userData.put("createdAt", System.currentTimeMillis());
 
+        userData.put("activeDeviceId", deviceId);
+
         db.collection("users").document(uid).set(userData).get();
 
         return uid;
     }
 
-    public Map<String, Object> loginUser(String email, String password) {
+    public Map<String, Object> loginUser(String email, String password, String deviceId) {
         // Use Firebase Auth REST API to verify credentials and get an ID token
         String url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + firebaseApiKey;
 
@@ -68,12 +70,31 @@ public class AuthService {
             Map<String, Object> result = new HashMap<>();
             if (responseBody != null) {
                 result.put("token", responseBody.get("idToken"));
-                result.put("uid", responseBody.get("localId"));
+                String uid = (String) responseBody.get("localId");
+                result.put("uid", uid);
                 result.put("email", responseBody.get("email"));
+                
+                // FORCE LOGOUT OLD DEVICE by updating activeDeviceId in Firestore
+                Firestore db = FirestoreClient.getFirestore();
+                Map<String, Object> updateData = new HashMap<>();
+                updateData.put("activeDeviceId", deviceId);
+                updateData.put("lastLogin", System.currentTimeMillis());
+                db.collection("users").document(uid).set(updateData, com.google.cloud.firestore.SetOptions.merge()).get();
             }
             return result;
         } catch (Exception e) {
             throw new RuntimeException("Invalid credentials or authentication error: " + e.getMessage());
+        }
+    }
+
+    public void logoutUser(String uid) {
+        try {
+            Firestore db = FirestoreClient.getFirestore();
+            Map<String, Object> updateData = new HashMap<>();
+            updateData.put("activeDeviceId", null);
+            db.collection("users").document(uid).set(updateData, com.google.cloud.firestore.SetOptions.merge()).get();
+        } catch (Exception e) {
+            System.err.println("Failed to clear device id on logout: " + e.getMessage());
         }
     }
 }

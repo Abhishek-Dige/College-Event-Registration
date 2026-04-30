@@ -3,6 +3,7 @@ import '../style.css';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import * as bootstrap from "bootstrap";
+import { api } from "../services/api";
 
 
 
@@ -10,17 +11,67 @@ import * as bootstrap from "bootstrap";
 export default function HomePage() {
   const [selectedEvent, setSelectedEvent] = useState("");
   const [registrations, setRegistrations] = useState([]);
+  const [eventsList, setEventsList] = useState([]);
+  const [filterClub, setFilterClub] = useState("All");
+  const [filterWing, setFilterWing] = useState("All");
+
+  const getClubIcon = (clubName) => {
+    if (!clubName) return "bi-calendar-star";
+    const name = clubName.toLowerCase();
+    if (name.includes("dance")) return "bi-music-note-beamed";
+    if (name.includes("music") || name.includes("sing")) return "bi-mic";
+    if (name.includes("tech") || name.includes("code") || name.includes("hack")) return "bi-laptop";
+    if (name.includes("art") || name.includes("design") || name.includes("paint")) return "bi-palette";
+    if (name.includes("drama") || name.includes("theatre") || name.includes("act")) return "bi-masks";
+    if (name.includes("sport") || name.includes("game") || name.includes("athlet")) return "bi-trophy";
+    if (name.includes("photo") || name.includes("camera") || name.includes("film")) return "bi-camera";
+    if (name.includes("literary") || name.includes("debate") || name.includes("book")) return "bi-book";
+    return "bi-star";
+  };
+
+  const handleShare = async (eventName) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Join me at ${eventName}!`,
+          text: `Hey, check out ${eventName} at IIIT Lucknow Fest 2025!`,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error('Error sharing:', error);
+      }
+    } else {
+      // Fallback if Web Share API is not supported
+      alert(`Share feature not supported on this browser. Copy the link: ${window.location.href}`);
+    }
+  };
 
   useEffect(() => {
     loadRegistrations();
-
+    loadEvents();
     // removed automatic infoModal popup
   }, []);
 
-// Populate table with data from backend
+  async function loadEvents() {
+    try {
+      const response = await api.fetchProtected("http://localhost:8080/api/events");
+      if (response.ok) {
+        const data = await response.json();
+        setEventsList(data);
+      }
+    } catch (error) {
+      console.error("Error loading events:", error);
+    }
+  }
+
+  const filteredEvents = eventsList.filter(event => {
+    return (filterClub === "All" || event.club === filterClub) &&
+           (filterWing === "All" || event.wing === filterWing);
+  });
+
 async function loadRegistrations() {
   try {
-    const response = await fetch("http://localhost:8080/api/data");
+    const response = await api.fetchProtected("http://localhost:8080/api/data");
     const data = await response.json();
     setRegistrations(data);
   } catch (error) {
@@ -43,7 +94,7 @@ async function handleFormSubmit(e) {
   const newEntry = { name, email, eventName, time: new Date().toLocaleString() };
 
   try {
-    const response = await fetch("http://localhost:8080/api/data", {
+    const response = await api.fetchProtected("http://localhost:8080/api/data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -125,45 +176,57 @@ async function handleFormSubmit(e) {
     <h2 className="mb-4 fw-bold"> Upcoming Events</h2>
     <p className="mb-5">Don't miss out on what's happening around campus!</p>
 
+    <div className="d-flex justify-content-center mb-4 gap-3">
+      <select className="form-select w-auto" value={filterClub} onChange={(e) => setFilterClub(e.target.value)}>
+        <option value="All">All Clubs</option>
+        {[...new Set(eventsList.map(e => e.club))].filter(Boolean).map(club => (
+          <option key={club} value={club}>{club}</option>
+        ))}
+      </select>
+      <select className="form-select w-auto" value={filterWing} onChange={(e) => setFilterWing(e.target.value)}>
+        <option value="All">All Wings</option>
+        {[...new Set(eventsList.map(e => e.wing))].filter(Boolean).map(wing => (
+          <option key={wing} value={wing}>{wing}</option>
+        ))}
+      </select>
+    </div>
+
     <div className="row row-cols-1 row-cols-md-3 g-4">
-      <div className="col">
-        <div className="card h-100 shadow-lg border-0 event-card">
-          <img src="/images/card-images/dance.jpg" className="card-img-top" alt="Dance Fest" />
-          <div className="card-body">
-            <h5 className="card-title fw-bold">Dance Fest 2025</h5>
-            <p className="text-muted small mb-2"><i className="bi bi-calendar-event"></i> 14th Nov, 2025</p>
-            <p className="card-text">An unforgettable evening of rhythm and lights featuring student bands!</p>
-         <button
-  className="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#applyModal"
-  onClick={() => setSelectedEvent("Dance Fest 2025")}
->
-  Register
-</button>
-
+      {filteredEvents.length > 0 ? filteredEvents.map((event) => (
+        <div className="col" key={event.id}>
+          <div className="card h-100 shadow-lg border-0 event-card">
+            <div className="card-img-top d-flex align-items-center justify-content-center bg-light text-primary" style={{ height: "180px", fontSize: "4rem" }}>
+              <i className={`bi ${getClubIcon(event.club)}`}></i>
+            </div>
+            <div className="card-body">
+              <h5 className="card-title fw-bold">{event.name}</h5>
+              <p className="text-muted small mb-2">
+                <i className="bi bi-calendar-event"></i> {event.date} | {event.club} ({event.wing})
+              </p>
+              <p className="card-text">{event.description}</p>
+              <div className="d-flex justify-content-between align-items-center mt-3">
+                <button
+                  className="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#applyModal"
+                  onClick={() => setSelectedEvent(event.name)}
+                >
+                  Register
+                </button>
+                <button
+                  className="btn btn-outline-secondary"
+                  onClick={() => handleShare(event.name)}
+                  title="Share this event"
+                >
+                  <i className="bi bi-share"></i> Share
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col">
-        <div className="card h-100 shadow-lg border-0 event-card">
-          <img src="/images/card-images/code.jpg" className="card-img-top" alt="Hackathon" />
-          <div className="card-body">
-            <h5 className="card-title fw-bold">TechSprint Hackathon</h5>
-            <p className="text-muted small mb-2"><i className="bi bi-calendar-event"></i> 28th Nov, 2025</p>
-            <p className="card-text">24 hours of coding, creativity, and collaboration!</p>
-            <button
-  className="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#applyModal"
-  onClick={() => setSelectedEvent("TechSprint Hackathon")}
->
-  Register
-</button>
-
-          </div>
-        </div>
-      </div>
+      )) : (
+        <div className="col-12 text-center text-muted">No events found matching the filters.</div>
+      )}
     </div>
   </div>
 </section>
@@ -232,7 +295,7 @@ async function handleFormSubmit(e) {
   onClick={async () => {
     if (window.confirm("Clear all registrations?")) {
       try {
-        await fetch("http://localhost:8080/api/data", { method: "DELETE" });
+        await api.fetchProtected("http://localhost:8080/api/data", { method: "DELETE" });
         loadRegistrations();
       } catch (error) {
         console.error("Error clearing data:", error);
