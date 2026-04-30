@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import * as bootstrap from "bootstrap";
 import { api } from "../services/api";
+import toast from "react-hot-toast";
 
 
 
@@ -87,7 +88,7 @@ async function handleFormSubmit(e) {
   const eventName = selectedEvent;
 
   if (!name || !email) {
-    alert("Please fill out all fields!");
+    toast.error("Please fill out all fields!");
     return;
   }
 
@@ -127,9 +128,10 @@ async function handleFormSubmit(e) {
     }, 400);
 
     e.target.reset();
+    toast.success("Successfully registered for the event!");
   } catch (error) {
     console.error("Error registering:", error);
-    alert("Failed to register. Please try again.");
+    toast.error("Failed to register. Please try again.");
   }
 }
 
@@ -172,7 +174,7 @@ async function handleFormSubmit(e) {
   </div>
 
   <section id="events" className="py-5" >
-  <div className="container text-center text-black">
+  <div className="container text-center">
     <h2 className="mb-4 fw-bold"> Upcoming Events</h2>
     <p className="mb-5">Don't miss out on what's happening around campus!</p>
 
@@ -195,7 +197,7 @@ async function handleFormSubmit(e) {
       {filteredEvents.length > 0 ? filteredEvents.map((event) => (
         <div className="col" key={event.id}>
           <div className="card h-100 shadow-lg border-0 event-card">
-            <div className="card-img-top d-flex align-items-center justify-content-center bg-light text-primary" style={{ height: "180px", fontSize: "4rem" }}>
+            <div className="card-img-top d-flex align-items-center justify-content-center bg-body-secondary text-primary" style={{ height: "180px", fontSize: "4rem" }}>
               <i className={`bi ${getClubIcon(event.club)}`}></i>
             </div>
             <div className="card-body">
