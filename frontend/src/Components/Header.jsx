@@ -1,10 +1,48 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { api } from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Header() {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { user, login, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
+
+    const [regName, setRegName] = useState('');
+    const [regEmail, setRegEmail] = useState('');
+    const [regPassword, setRegPassword] = useState('');
+    const [regConfirmPassword, setRegConfirmPassword] = useState('');
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await api.login({ email: loginEmail, password: loginPassword });
+            login(data);
+            document.querySelector('#loginModal .btn-close')?.click();
+            navigate('/');
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        if (regPassword !== regConfirmPassword) {
+            return alert("Passwords don't match!");
+        }
+        try {
+            await api.register({ name: regName, email: regEmail, password: regPassword });
+            alert("Registered successfully! You can now login.");
+            document.querySelector('#registerModal .btn-close')?.click();
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <div>
@@ -75,8 +113,17 @@ function Header() {
                                 <button className="btn btn-outline-light" type="submit">Search</button>
                             </form>
                             <div className="mx-2 mt-2 mt-lg-0">
-                                <button className="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-                                <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                                {user ? (
+                                    <>
+                                        <span className="text-light me-3">Welcome, {user.email}</span>
+                                        <button className="btn btn-danger" onClick={logout}>Logout</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button className="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                                        <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -90,20 +137,16 @@ function Header() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <form onSubmit={handleLogin}>
                                     <div className="mb-3">
-                                        <label htmlFor="exampleInputEmail1" className="form-label">Email Address</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                                        <label htmlFor="loginEmail" className="form-label">Email Address</label>
+                                        <input type="email" className="form-control" id="loginEmail" required value={loginEmail} onChange={e => setLoginEmail(e.target.value)} />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1" />
+                                        <label htmlFor="loginPassword" className="form-label">Password</label>
+                                        <input type="password" className="form-control" id="loginPassword" required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
                                     </div>
-                                    <div className="mb-3 form-check">
-                                        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                        <label className="form-check-label" htmlFor="exampleCheck1">Keep me signed in</label>
-                                    </div>
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <button type="submit" className="btn btn-primary">Login</button>
                                 </form>
                             </div>
                             <div className="modal-footer">
@@ -121,21 +164,24 @@ function Header() {
                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className="modal-body">
-                                <form>
+                                <form onSubmit={handleRegister}>
                                     <div className="mb-3">
-                                        <label htmlFor="exampleInputEmail1" className="form-label">Email Address</label>
-                                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                                        <label htmlFor="regName" className="form-label">Full Name</label>
+                                        <input type="text" className="form-control" id="regName" required value={regName} onChange={e => setRegName(e.target.value)} />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1" />
+                                        <label htmlFor="regEmail" className="form-label">Email Address</label>
+                                        <input type="email" className="form-control" id="regEmail" required value={regEmail} onChange={e => setRegEmail(e.target.value)} />
                                     </div>
                                     <div className="mb-3">
-                                        <label htmlFor="cexampleInputPassword1" className="form-label">Confirm Password</label>
-                                        <input type="password" className="form-control" id="cexampleInputPassword1" />
+                                        <label htmlFor="regPassword" className="form-label">Password</label>
+                                        <input type="password" className="form-control" id="regPassword" required value={regPassword} onChange={e => setRegPassword(e.target.value)} />
                                     </div>
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <div className="mb-3">
+                                        <label htmlFor="regConfirmPassword" className="form-label">Confirm Password</label>
+                                        <input type="password" className="form-control" id="regConfirmPassword" required value={regConfirmPassword} onChange={e => setRegConfirmPassword(e.target.value)} />
+                                    </div>
+                                    <button type="submit" className="btn btn-primary">Register</button>
                                 </form>
                             </div>
                             <div className="modal-footer">
