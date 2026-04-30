@@ -17,10 +17,23 @@ public class FirebaseConfig {
         try {
             // Check if already initialized to prevent errors
             if (FirebaseApp.getApps().isEmpty()) {
-                java.io.InputStream serviceAccount = getClass().getResourceAsStream("/serviceAccountKey.json");
+                GoogleCredentials credentials;
+                String envCredentials = System.getenv("FIREBASE_CREDENTIALS");
+                
+                if (envCredentials != null && !envCredentials.isEmpty()) {
+                    // Load from environment variable (useful for Docker/EC2/Render)
+                    credentials = GoogleCredentials.fromStream(new java.io.ByteArrayInputStream(envCredentials.getBytes()));
+                } else {
+                    // Fallback to local file for local development
+                    java.io.InputStream serviceAccount = getClass().getResourceAsStream("/serviceAccountKey.json");
+                    if (serviceAccount == null) {
+                        throw new RuntimeException("serviceAccountKey.json not found in resources folder!");
+                    }
+                    credentials = GoogleCredentials.fromStream(serviceAccount);
+                }
                 
                 FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setCredentials(credentials)
                         .build();
 
                 FirebaseApp.initializeApp(options);
