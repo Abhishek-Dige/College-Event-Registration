@@ -11,13 +11,14 @@ import Debate from "./pages/debate";
 import Coding from "./pages/coding";
 import Footer from "./components/Footer";
 import ContactUs from "./pages/contactus";
+import EventDetails from "./EventDetails";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { Toaster } from "react-hot-toast";
 
 function AppContent() {
   const { token } = useAuth();
-  
+
   return (
     <div className="App d-flex flex-column min-vh-100">
       <Header />
@@ -31,7 +32,8 @@ function AppContent() {
             <Route path="/fine-arts" element={<FineArts />} />
             <Route path="/debate" element={<Debate />} />
             <Route path="/coding" element={<Coding />} />
-            <Route path="/contact-us" element={<ContactUs /> } />
+            <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/event/:id" element={<EventDetails />} />
           </Routes>
         ) : (
           <div className="container mt-5 pt-5 text-center">
