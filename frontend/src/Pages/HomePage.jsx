@@ -55,7 +55,8 @@ export default function HomePage() {
 
   async function loadEvents() {
     try {
-      const response = await api.fetchProtected("http://localhost:8080/api/events");
+      const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+      const response = await api.fetchProtected(`${baseUrl}/api/events`);
       if (response.ok) {
         const data = await response.json();
         setEventsList(data);
@@ -72,7 +73,8 @@ export default function HomePage() {
 
 async function loadRegistrations() {
   try {
-    const response = await api.fetchProtected("http://localhost:8080/api/data");
+    const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+    const response = await api.fetchProtected(`${baseUrl}/api/data`);
     const data = await response.json();
     setRegistrations(data);
   } catch (error) {
@@ -95,7 +97,8 @@ async function handleFormSubmit(e) {
   const newEntry = { name, email, eventName, time: new Date().toLocaleString() };
 
   try {
-    const response = await api.fetchProtected("http://localhost:8080/api/data", {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+    const response = await api.fetchProtected(`${baseUrl}/api/data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -297,7 +300,8 @@ async function handleFormSubmit(e) {
   onClick={async () => {
     if (window.confirm("Clear all registrations?")) {
       try {
-        await api.fetchProtected("http://localhost:8080/api/data", { method: "DELETE" });
+        const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/auth', '') : 'http://localhost:8080';
+        await api.fetchProtected(`${baseUrl}/api/data`, { method: "DELETE" });
         loadRegistrations();
       } catch (error) {
         console.error("Error clearing data:", error);

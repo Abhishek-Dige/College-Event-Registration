@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8080/auth'; // Adjust based on your Spring Boot port
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/auth'; // Adjust based on your Spring Boot port
 
 const getDeviceId = () => {
     let deviceId = sessionStorage.getItem("deviceId");
